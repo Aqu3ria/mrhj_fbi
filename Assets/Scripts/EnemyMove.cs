@@ -7,7 +7,11 @@ public class NewBehaviourScript : MonoBehaviour
 {
     [SerializeField] Transform player;
     [SerializeField] float speed = 0.4f;
-    [SerializeField] float followRange = 5f;
+    // [SerializeField] float followRange = 5f;
+    [SerializeField] float attackRange = 0.5f;
+    [SerializeField] int attackDamage = 10;
+    float attackCooldown = 1f;
+    float lastAttackTime = 0;
     Rigidbody2D rb;
     Transform targetLadder;
 
@@ -31,12 +35,20 @@ public class NewBehaviourScript : MonoBehaviour
                 isClimbing = true;
                 ClimbLadder();
             }
-            
         }
         else
         {
             isClimbing = false;
             FollowObject(player.position.x);
+        }
+
+        if (Vector2.Distance(transform.position, player.position) <= attackRange)
+        {
+            if (Time.time > lastAttackTime + attackCooldown)
+            {
+                AttackPlayer();
+                lastAttackTime = Time.time;
+            }
         }
     }
 
@@ -83,6 +95,16 @@ public class NewBehaviourScript : MonoBehaviour
         {
             rb.gravityScale = 1;
             gameObject.layer = 9;
+        }
+    }
+
+    void AttackPlayer()
+    {
+        PlayerPercent playerPercent = player.GetComponent<PlayerPercent>();
+        if (playerPercent != null)
+        {
+            Vector2 knockbackDirection = (player.position - transform.position).normalized; // 넉백 방향 설정
+            playerPercent.TakeDamage(attackDamage, knockbackDirection); 
         }
     }
 
