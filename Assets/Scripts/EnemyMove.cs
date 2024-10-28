@@ -28,6 +28,7 @@ public class NewBehaviourScript : MonoBehaviour
             FollowObject(targetLadder.position.x);
             if (Mathf.Abs(targetLadder.position.x - transform.position.x) < 0.1f)   
             {
+                isClimbing = true;
                 ClimbLadder();
             }
             
@@ -56,7 +57,17 @@ public class NewBehaviourScript : MonoBehaviour
         else if (distanceX < 0)
             transform.position += speed * Time.deltaTime * Vector3.right;
 
+        if(!isClimbing)
+        {
+            Vector3 currentScale = transform.localScale;
+            if((distanceX > 0 && currentScale.x > 0) || (distanceX < 0 && currentScale.x < 0))
+            {
+                currentScale.x *= -1;
+            }
+            transform.localScale = currentScale;
+        }
     }
+        
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Ladder"))

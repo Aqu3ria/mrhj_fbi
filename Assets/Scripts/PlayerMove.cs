@@ -19,9 +19,14 @@ public class PlayerMove : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
         transform.position += Vector3.right * h * speed * Time.deltaTime;
-        if (v != 0) {
-            Ladder(v);
+
+        Vector3 currentScale = transform.localScale;
+        if((h < 0 && currentScale.x > 0) || (h > 0 && currentScale.x < 0)){
+            currentScale.x *= -1;
         }
+        transform.localScale = currentScale;
+
+        Ladder(v);
     }
 
     void OnTriggerEnter2D(Collider2D other) {
