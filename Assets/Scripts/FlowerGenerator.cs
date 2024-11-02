@@ -41,7 +41,7 @@ public class FlowerGenerator : MonoBehaviour
     {
         Vector2 basePosition = area.transform.position; 
         Vector2 size = area.size;                  
-        float posX = basePosition.x + Random.Range(-size.x / 2f, size.x / 2f);
+        float posX = basePosition.x + Random.Range(-size.x*2, size.x*2);
 
         float posY = basePosition.y + 0.5f;
 
