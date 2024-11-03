@@ -25,13 +25,15 @@ public class NewBehaviourScript : MonoBehaviour
         if (Mathf.Abs(player.position.y - transform.position.y) > 0.1f)
         {
             targetLadder = FindNearestLadder();
-            FollowObject(targetLadder.position.x);
-            if (Mathf.Abs(targetLadder.position.x - transform.position.x) < 0.1f)   
+            if (targetLadder != null)
             {
-                isClimbing = true;
-                ClimbLadder();
+                FollowObject(targetLadder.position.x);
+                if (Mathf.Abs(targetLadder.position.x - transform.position.x) < 0.1f)
+                {
+                    isClimbing = true;
+                    ClimbLadder();
+                }
             }
-            
         }
         else
         {
@@ -57,17 +59,17 @@ public class NewBehaviourScript : MonoBehaviour
         else if (distanceX < 0)
             transform.position += speed * Time.deltaTime * Vector3.right;
 
-        if(!isClimbing)
+        if (!isClimbing)
         {
             Vector3 currentScale = transform.localScale;
-            if((distanceX > 0 && currentScale.x > 0) || (distanceX < 0 && currentScale.x < 0))
+            if ((distanceX > 0 && currentScale.x > 0) || (distanceX < 0 && currentScale.x < 0))
             {
                 currentScale.x *= -1;
             }
             transform.localScale = currentScale;
         }
     }
-        
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Ladder"))
