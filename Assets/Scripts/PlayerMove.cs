@@ -8,6 +8,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]float maxSpeed = 0.5f;
     float accel;
     float deccel;
+    float stopThresholdValue = 0.1f;
 
     [SerializeField] int framesToAccel = 20;
     [SerializeField] int framesToDeccel = 10; 
@@ -55,9 +56,10 @@ public class PlayerMove : MonoBehaviour
         gameObject.layer = 9;
     }
 
-    void Ladder(float v) {
+    void Ladder(float verticalInput) {
         if (gameObject.layer == 8) {
-            transform.Translate(0, v * maxSpeed * Time.deltaTime, 0);
+            rb.velocity = Vector2.zero;
+            transform.Translate(0, verticalInput * maxSpeed * Time.deltaTime, 0);
         }
     }
 
@@ -81,9 +83,10 @@ public class PlayerMove : MonoBehaviour
         }
 
         // set new velocity
-        if (calculatedVelocity >= 0) velocityX = Math.Min(calculatedVelocity, maxSpeed);
-        else velocityX = Math.Max(calculatedVelocity, -maxSpeed);
+        velocityX = Mathf.Clamp(calculatedVelocity, -maxSpeed, maxSpeed);
         
+        // set velocity to 0 if at close to 0 value
+        if (Math.Abs(velocityX) < stopThresholdValue) velocityX = 0;
 
         Vector3 velocity = Vector3.right * velocityX * Time.deltaTime;
         transform.position += velocity;
