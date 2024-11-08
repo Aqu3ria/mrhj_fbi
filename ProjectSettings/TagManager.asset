@@ -9,6 +9,7 @@ TagManager:
   - FlowerSpawnable_Ground
   - FlowerSpawnable_Platform
   - EnemySpawnable_Ground
+  - LadderTopCollider
   layers:
   - Default
   - TransparentFX

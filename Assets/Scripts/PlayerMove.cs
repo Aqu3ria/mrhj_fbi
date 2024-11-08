@@ -56,9 +56,10 @@ public class PlayerMove : MonoBehaviour
         gameObject.layer = 9;
     }
 
-    void Ladder(float v) {
+    void Ladder(float verticalInput) {
         if (gameObject.layer == 8) {
-            transform.Translate(0, v * maxSpeed * Time.deltaTime, 0);
+            rb.velocity = Vector2.zero;
+            transform.Translate(0, verticalInput * maxSpeed * Time.deltaTime, 0);
         }
     }
 
@@ -84,6 +85,7 @@ public class PlayerMove : MonoBehaviour
         // set new velocity
         velocityX = Mathf.Clamp(calculatedVelocity, -maxSpeed, maxSpeed);
         
+        // set velocity to 0 if at close to 0 value
         if (Math.Abs(velocityX) < stopThresholdValue) velocityX = 0;
 
         Vector3 velocity = Vector3.right * velocityX * Time.deltaTime;
