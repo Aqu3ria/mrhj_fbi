@@ -4,10 +4,12 @@ using UnityEngine;
 
 
 public class FlowerGenerator : MonoBehaviour
-{   
-    [SerializeField]public int spawnInterval = 5;
-    private BoxCollider2D area;  
-    private List<GameObject> BigFlowerList = new List<GameObject>();		
+{
+    [SerializeField] public int spawnInterval = 5;
+    [SerializeField] public int flowerNumber = 3;
+    [SerializeField] private GameObject flower;
+    private BoxCollider2D area;
+    private List<GameObject> BigFlowerList = new List<GameObject>();
 
     void Start()
     {
@@ -16,32 +18,42 @@ public class FlowerGenerator : MonoBehaviour
     }
 
     IEnumerator Spawn(float delayTime)
-
     {
-        GameObject BigFlower = GameObject.Find("Flower");
-        GameObject [] SpawningPlatforms = GameObject.FindGameObjectsWithTag("FlowerSpawnable_Platform");
-        GameObject SpawningPlatform = SpawningPlatforms[Random.Range(0, SpawningPlatforms.Length)];
-        print(SpawningPlatform);
+        if (BigFlowerList.Count <= flowerNumber)
+        {
+            Vector3 spawnPos = transform.position;
+            spawnPos.y = spawnPos.y - 0.8f;
+            float dx = Random.Range(-0.5f, 0.5f);
 
-        area = SpawningPlatform.GetComponent<BoxCollider2D>();
-        print(area);
+            if (dx <= 0f) dx += Random.Range(-1f, -0.5f);
+            else dx += Random.Range(0.5f, 1f);
 
-        Vector3 spawnPos = GetRandomPosition();
-        print(spawnPos);
-        GameObject instance = Instantiate(BigFlower, spawnPos, Quaternion.identity);
-        BigFlowerList.Add(instance);
+            spawnPos.x += dx;
+
+            // GameObject [] SpawningPlatforms = GameObject.FindGameObjectsWithTag("FlowerSpawnable_Platform");
+            // GameObject SpawningPlatform = SpawningPlatforms[Random.Range(0, SpawningPlatforms.Length)];
+            // Debug.Log(SpawningPlatform);
+
+            // area = SpawningPlatform.GetComponent<BoxCollider2D>();
+            // Debug.Log(area);
+
+            // Vector3 spawnPos = GetRandomPosition();
+            GameObject instance = Instantiate(flower, spawnPos, Quaternion.identity);
+            BigFlowerList.Add(instance);
+        }
+
         yield return new WaitForSeconds(delayTime);
 
         StartCoroutine("Spawn", spawnInterval);
     }
 
-    
+
 
     private Vector2 GetRandomPosition()
     {
-        Vector2 basePosition = area.transform.position; 
-        Vector2 size = area.size;                  
-        float posX = basePosition.x + Random.Range(-size.x*2, size.x*2);
+        Vector2 basePosition = area.transform.position;
+        Vector2 size = area.size;
+        float posX = basePosition.x + Random.Range(-size.x * 2, size.x * 2);
 
         float posY = basePosition.y + 0.5f;
 
