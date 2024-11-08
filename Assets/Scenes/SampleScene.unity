@@ -3452,7 +3452,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -2.5}
+  m_Offset: {x: 0, y: -2.4627995}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3463,7 +3463,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5, y: 31}
+  m_Size: {x: 5, y: 31.074402}
   m_EdgeRadius: 0
 --- !u!4 &1537512594
 Transform:
@@ -4571,6 +4571,63 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &1952706195
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2404266131609454195, guid: f1e100715f9f2e84884ef4e332022336, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.4880424
+      objectReference: {fileID: 0}
+    - target: {fileID: 2404266131609454195, guid: f1e100715f9f2e84884ef4e332022336, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.1607966
+      objectReference: {fileID: 0}
+    - target: {fileID: 2404266131609454195, guid: f1e100715f9f2e84884ef4e332022336, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2404266131609454195, guid: f1e100715f9f2e84884ef4e332022336, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2404266131609454195, guid: f1e100715f9f2e84884ef4e332022336, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2404266131609454195, guid: f1e100715f9f2e84884ef4e332022336, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2404266131609454195, guid: f1e100715f9f2e84884ef4e332022336, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2404266131609454195, guid: f1e100715f9f2e84884ef4e332022336, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2404266131609454195, guid: f1e100715f9f2e84884ef4e332022336, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2404266131609454195, guid: f1e100715f9f2e84884ef4e332022336, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7935825854719774716, guid: f1e100715f9f2e84884ef4e332022336, type: 3}
+      propertyPath: m_Name
+      value: ladder
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1e100715f9f2e84884ef4e332022336, type: 3}
 --- !u!1 &1973658944
 GameObject:
   m_ObjectHideFlags: 0
@@ -4790,3 +4847,4 @@ SceneRoots:
   - {fileID: 276055589}
   - {fileID: 225464909}
   - {fileID: 617632483}
+  - {fileID: 1952706195}
