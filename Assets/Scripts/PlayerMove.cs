@@ -8,6 +8,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]float maxSpeed = 0.5f;
     float accel;
     float deccel;
+    float stopThresholdValue = 0.1f;
 
     [SerializeField] int framesToAccel = 20;
     [SerializeField] int framesToDeccel = 10; 
@@ -81,9 +82,9 @@ public class PlayerMove : MonoBehaviour
         }
 
         // set new velocity
-        if (calculatedVelocity >= 0) velocityX = Math.Min(calculatedVelocity, maxSpeed);
-        else velocityX = Math.Max(calculatedVelocity, -maxSpeed);
+        velocityX = Mathf.Clamp(calculatedVelocity, -maxSpeed, maxSpeed);
         
+        if (Math.Abs(velocityX) < stopThresholdValue) velocityX = 0;
 
         Vector3 velocity = Vector3.right * velocityX * Time.deltaTime;
         transform.position += velocity;
