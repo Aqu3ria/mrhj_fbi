@@ -6,7 +6,7 @@ using UnityEngine;
 public class FlowerGenerator : MonoBehaviour
 {
     [SerializeField] public int spawnInterval = 5;
-    [SerializeField] public int flowerNumber = 3;
+    [SerializeField] public int flowerNumber = 2;
     [SerializeField] private GameObject flower;
     private BoxCollider2D area;
     private List<GameObject> BigFlowerList = new List<GameObject>();
@@ -19,7 +19,7 @@ public class FlowerGenerator : MonoBehaviour
 
     IEnumerator Spawn(float delayTime)
     {
-        if (BigFlowerList.Count <= flowerNumber)
+        if (BigFlowerList.Count < flowerNumber)
         {
             Vector3 spawnPos = transform.position;
             spawnPos.y = spawnPos.y - 0.8f;
