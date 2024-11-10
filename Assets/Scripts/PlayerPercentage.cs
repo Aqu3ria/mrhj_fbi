@@ -28,7 +28,7 @@ public class PlayerPercent : MonoBehaviour
         knockbackDirection = direction.normalized;
         isKnockback = true;
         knockbackEndTime = Time.time + knockbackDuration;   
-        Debug.Log("TakeDamage called with damage: " + damage + ", knockbackDirection: " + knockbackDirection);
+        //Debug.Log("TakeDamage called with damage: " + damage + ", knockbackDirection: " + knockbackDirection);
 
     }
 
