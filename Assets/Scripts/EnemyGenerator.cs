@@ -4,47 +4,67 @@ using UnityEngine;
 
 public class EnemyGenerator : MonoBehaviour
 {
-    [SerializeField] public int spawnInterval = 5;
     [SerializeField] private GameObject enemyPrefab;
-    private BoxCollider2D area;
+    public int wave = 1;
+    [SerializeField]private BoxCollider2D area;
     private List<GameObject> enemyList = new List<GameObject>();
 
-    void Start()
+    public int lastEnemyCount = 0;
+    public int waveDuration = 0;
+    public int enemyCount = 0;
+
+    void Awake()
     {
-        StartCoroutine("Spawn", spawnInterval);
+        StartCoroutine(Wave());
         enemyList.Clear();
     }
 
-    IEnumerator Spawn(float delayTime)
-
+    IEnumerator Wave()
     {
-        // GameObject [] SpawningPlatforms = GameObject.FindGameObjectsWithTag("EnemySpawnable_Ground");
-        // GameObject SpawningPlatform = SpawningPlatforms[Random.Range(0, SpawningPlatforms.Length)];
 
-        // area = SpawningPlatform.GetComponent<BoxCollider2D>();
+        while (true)
+        {
 
-        Vector3 spawnPos = transform.position;
+            if (wave == 1)
+            {
+                enemyCount = Random.Range(4, 7);
+                lastEnemyCount = enemyCount;
+            }
+            else
+            {
+                enemyCount = Random.Range(lastEnemyCount + 2, lastEnemyCount + 6);
+                lastEnemyCount = enemyCount;
+            }
 
-        GameObject instance = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
-        enemyList.Add(instance);
-        yield return new WaitForSeconds(delayTime);
+            waveDuration = enemyCount * 10;
 
-        StartCoroutine("Spawn", spawnInterval);
+            for (int i = 0; i < enemyCount; i++)
+            {
+                yield return new WaitForSeconds(Random.Range(3, 9));
+                StartCoroutine(Spawn());
+            }
+
+            wave++;
+
+            yield return new WaitForSeconds(waveDuration);
+        }
     }
 
-
+    IEnumerator Spawn()
+    {
+        Vector3 spawnPos = transform.position;
+        GameObject instance = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+        enemyList.Add(instance);
+        yield return null;
+    }
 
     private Vector2 GetRandomPosition()
     {
         Vector2 basePosition = area.transform.position;
         Vector2 size = area.size;
         float posX = basePosition.x + Random.Range(-size.x / 2f, size.x / 2f);
-
         float posY = basePosition.y + 3f;
-
-        Vector2 spawnPos = new Vector2(posX, posY);
-
-        return spawnPos;
+        return new Vector2(posX, posY);
     }
-
 }
+
