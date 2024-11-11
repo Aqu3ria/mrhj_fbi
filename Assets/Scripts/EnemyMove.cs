@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour
 {
-    [SerializeField] Transform player;
-    [SerializeField] float speed = 0.4f;
+    [SerializeField] float speed = 0.75f;
     // [SerializeField] float followRange = 5f;
     [SerializeField] float attackRange = 1f;
     [SerializeField] int attackDamage = 10;
+
+    [SerializeField] Transform player;
+
     float attackCooldown = 1;
     float lastAttackTime = 0;
     Rigidbody2D rb;
@@ -18,9 +20,10 @@ public class NewBehaviourScript : MonoBehaviour
     bool isClimbing = false;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        player = GameObject.Find("Gardener").transform;
     }
 
     // Update is called once per frame
