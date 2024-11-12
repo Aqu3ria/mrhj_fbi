@@ -5,18 +5,25 @@ using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour
 {
+    [SerializeField] float speed = 0.75f;
+    // [SerializeField] float followRange = 5f;
+    [SerializeField] float attackRange = 1f;
+    [SerializeField] int attackDamage = 10;
+
     [SerializeField] Transform player;
-    [SerializeField] float speed = 0.4f;
-    [SerializeField] float followRange = 5f;
+
+    float attackCooldown = 1;
+    float lastAttackTime = 0;
     Rigidbody2D rb;
     Transform targetLadder;
 
     bool isClimbing = false;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        player = GameObject.Find("Gardener").transform;
     }
 
     // Update is called once per frame
@@ -27,11 +34,11 @@ public class NewBehaviourScript : MonoBehaviour
             targetLadder = FindNearestLadder();
             if (targetLadder != null)
             {
-                FollowObject(targetLadder.position.x);
-                if (Mathf.Abs(targetLadder.position.x - transform.position.x) < 0.1f)
-                {
-                    isClimbing = true;
-                    ClimbLadder();
+            FollowObject(targetLadder.position.x);
+            if (Mathf.Abs(targetLadder.position.x - transform.position.x) < 0.1f)   
+            {
+                isClimbing = true;
+                ClimbLadder();
                 }
             }
         }
@@ -39,6 +46,15 @@ public class NewBehaviourScript : MonoBehaviour
         {
             isClimbing = false;
             FollowObject(player.position.x);
+        }
+        if (Vector2.Distance(transform.position, player.position) <= attackRange)
+        {
+
+            if (Time.time > lastAttackTime + attackCooldown)
+            {
+                AttackPlayer();
+                lastAttackTime = Time.time;
+            }
         }
     }
 
@@ -69,7 +85,7 @@ public class NewBehaviourScript : MonoBehaviour
             transform.localScale = currentScale;
         }
     }
-
+        
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Ladder"))
@@ -85,6 +101,16 @@ public class NewBehaviourScript : MonoBehaviour
         {
             rb.gravityScale = 1;
             gameObject.layer = 9;
+        }
+    }
+
+    void AttackPlayer()
+    {
+        PlayerPercent playerPercent = player.GetComponent<PlayerPercent>();
+        if (playerPercent != null)
+        {
+            Vector2 knockbackDirection = (player.position - transform.position).normalized; // 넉백 방향 설정
+            playerPercent.TakeDamage(attackDamage, knockbackDirection); 
         }
     }
 
