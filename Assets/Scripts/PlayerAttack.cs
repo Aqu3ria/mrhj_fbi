@@ -5,7 +5,6 @@ public class PlayerAttack : MonoBehaviour
     public int attackDamage = 10;
     public float attackRange = 1f;
     [SerializeField] Transform enemy;
-    [SerializeField] Transform transform;
 
     void Update()
     {

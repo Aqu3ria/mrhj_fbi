@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class EnemyMove : MonoBehaviour
 {
     [SerializeField] float speed = 0.75f;
     // [SerializeField] float followRange = 5f;
     [SerializeField] float attackRange = 1f;
     [SerializeField] int attackDamage = 10;
 
-    [SerializeField] Transform player;
+    Transform player;
 
     float attackCooldown = 1;
     float lastAttackTime = 0;
@@ -18,12 +18,17 @@ public class NewBehaviourScript : MonoBehaviour
     Transform targetLadder;
 
     bool isClimbing = false;
+    bool lookingToClimb = false;
 
     // Start is called before the first frame update
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        player = GameObject.Find("Gardener").transform;
+    }
+
+    void Start()
+    {
+        player = PlayerMove.Instance.transform;
     }
 
     // Update is called once per frame
@@ -31,20 +36,26 @@ public class NewBehaviourScript : MonoBehaviour
     {
         if (Mathf.Abs(player.position.y - transform.position.y) > 0.1f)
         {
-            targetLadder = FindNearestLadder();
+            if(!isClimbing)
+            {
+                lookingToClimb = true;
+                targetLadder = FindNearestLadder();
+            }
+
             if (targetLadder != null)
             {
-            FollowObject(targetLadder.position.x);
-            if (Mathf.Abs(targetLadder.position.x - transform.position.x) < 0.1f)   
-            {
-                isClimbing = true;
-                ClimbLadder();
-                }
+                FollowObject(targetLadder.position.x);
+                if(isClimbing) ClimbLadder();
+                // if (Mathf.Abs(targetLadder.position.x - transform.position.x) < 0.1f)   
+                // {
+                //     isClimbing = true;
+                //     ClimbLadder();
+                // }
             }
         }
         else
         {
-            isClimbing = false;
+            lookingToClimb = false;
             FollowObject(player.position.x);
         }
         if (Vector2.Distance(transform.position, player.position) <= attackRange)
@@ -62,9 +73,9 @@ public class NewBehaviourScript : MonoBehaviour
     {
         float distanceY = transform.position.y - player.position.y;
         if (distanceY > 0)
-            transform.position += speed * Time.deltaTime * Vector3.down;
+            transform.position += speed * Time.deltaTime * Vector3.down * 2f;
         else
-            transform.position += speed * Time.deltaTime * Vector3.up;
+            transform.position += speed * Time.deltaTime * Vector3.up * 2f;
     }
 
     void FollowObject(float x)
@@ -92,11 +103,17 @@ public class NewBehaviourScript : MonoBehaviour
         {
             gameObject.layer = 8;
             rb.gravityScale = 0;
+            if(lookingToClimb)
+            {
+                isClimbing = true;
+            }
         }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
+        isClimbing = false;
+
         if (other.gameObject.CompareTag("Ladder"))
         {
             rb.gravityScale = 1;
@@ -122,10 +139,10 @@ public class NewBehaviourScript : MonoBehaviour
 
         foreach (GameObject ladder in ladders)
         {
-            float distanceX = Mathf.Abs(transform.position.x - ladder.transform.position.x);
-            if (distanceX < minDistance)
+            float distance = (player.position - ladder.transform.position).magnitude;
+            if (distance < minDistance)
             {
-                minDistance = distanceX;
+                minDistance = distance;
                 nearestLadder = ladder.transform;
             }
         }
