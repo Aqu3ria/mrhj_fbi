@@ -1756,7 +1756,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 711137b4e78eb6443a0b6b560398c0bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnInterval: 5
+  spawnInterval: 2
   flowerNumber: 3
   flower: {fileID: 2328080768060702403, guid: dc42aa5e4c682b74884a642cd07e6b5c, type: 3}
 --- !u!1001 &997458334
