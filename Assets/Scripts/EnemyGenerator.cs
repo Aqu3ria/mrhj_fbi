@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class EnemyGenerator : MonoBehaviour
 {
@@ -13,10 +14,13 @@ public class EnemyGenerator : MonoBehaviour
     public int waveDuration = 0;
     public int enemyCount = 0;
 
+    public TextMeshProUGUI waveText;
+
     void Awake()
     {
         StartCoroutine(Wave());
         enemyList.Clear();
+        UpdateWaveUI();
     }
 
     IEnumerator Wave()
@@ -24,6 +28,8 @@ public class EnemyGenerator : MonoBehaviour
 
         while (true)
         {
+
+            UpdateWaveUI();
 
             if (wave == 1)
             {
@@ -43,6 +49,7 @@ public class EnemyGenerator : MonoBehaviour
                 yield return new WaitForSeconds(Random.Range(3, 9));
                 StartCoroutine(Spawn());
             }
+            
 
             wave++;
 
@@ -65,6 +72,11 @@ public class EnemyGenerator : MonoBehaviour
         float posX = basePosition.x + Random.Range(-size.x / 2f, size.x / 2f);
         float posY = basePosition.y + 3f;
         return new Vector2(posX, posY);
+    }
+
+    private void UpdateWaveUI()
+    {
+        waveText.text = "Wave: " + wave;
     }
 }
 

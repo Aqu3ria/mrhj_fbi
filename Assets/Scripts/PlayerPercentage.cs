@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerPercent : MonoBehaviour
 {
     [SerializeField] private int currentPercent;
-    public TextMeshProUGUI percentText;
+    [SerializeField] public TextMeshProUGUI percentText;
 
     float knockbackDistance = 0.5f;   
     [SerializeField] float knockbackDuration = 0.1f; 
