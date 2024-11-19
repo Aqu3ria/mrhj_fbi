@@ -17,6 +17,7 @@ public class PlayerMove : MonoBehaviour
 
     [SerializeField]float velocityX = 0f;
     Rigidbody2D rb;
+    [SerializeField] Panel_GameOver panelGameOver;
     
 
     // Start is called before the first frame update
@@ -43,6 +44,8 @@ public class PlayerMove : MonoBehaviour
 
         Animate(h , v);
         Ladder(v);
+        if (transform.position.y < -10) 
+            GameOver();
     }
 
     void OnTriggerEnter2D(Collider2D other) {
@@ -107,5 +110,17 @@ public class PlayerMove : MonoBehaviour
         transform.localScale = currentScale;
     }
 
-    
+    void GameOver()
+    {
+        if (panelGameOver != null)
+        {
+            panelGameOver.Show(); 
+        }
+        else
+        {
+            Debug.LogError("Panel_GameOver가 설정되지 않았습니다!");
+        }
+
+        Time.timeScale = 0f;
+    }
 }

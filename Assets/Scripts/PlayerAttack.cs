@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public int attackDamage = 10;
-    public float attackRange = 1f;
+    public int attackDamage = 5;
+    public float attackRange = .5f;
     [SerializeField] Transform enemy;
 
     [SerializeField]
