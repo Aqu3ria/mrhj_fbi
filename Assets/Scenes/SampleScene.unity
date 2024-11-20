@@ -406,6 +406,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91d77b627c2145c44b5c0bedcb5c9baf, type: 3}
+--- !u!1 &68647587
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 68647588}
+  m_Layer: 9
+  m_Name: FlowerHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &68647588
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 68647587}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: -0.11840396, w: 0.9929655}
+  m_LocalPosition: {x: 1.81, y: 0.43, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 2875555368878138899}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -13.6}
 --- !u!4 &71220462 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2404266131609454195, guid: f1e100715f9f2e84884ef4e332022336, type: 3}
@@ -548,9 +579,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackDamage: 10
-  attackRange: 2
+  attackRange: 1
   enemy: {fileID: 1321309532}
-  grabPoint: {fileID: 2875555368878138899}
+  flowerHolder: {fileID: 68647588}
   rayPoint: {fileID: 2875555368878138899}
   rayDistance: 0
 --- !u!1 &198240850
@@ -2020,7 +2051,7 @@ GameObject:
   - component: {fileID: 986212589}
   - component: {fileID: 986212591}
   m_Layer: 0
-  m_Name: BackgroundFlower
+  m_Name: FlowerGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2087,11 +2118,11 @@ Transform:
   m_GameObject: {fileID: 986212588}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.869086, y: 0.6164041, z: -0.08896742}
+  m_LocalPosition: {x: -2.59, y: 0.43, z: -0.011780262}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 1697207539}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &986212591
 MonoBehaviour:
@@ -2105,9 +2136,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 711137b4e78eb6443a0b6b560398c0bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnInterval: 2
-  flowerNumber: 3
+  spawnInterval: 5
+  flowerNumber: 2
   flower: {fileID: 2328080768060702403, guid: dc42aa5e4c682b74884a642cd07e6b5c, type: 3}
+  flowerWeaponList:
+  - {fileID: 11400000, guid: a67bd7df9856e644b9c6d9e03f05414f, type: 2}
+  - {fileID: 11400000, guid: 6b1ee531448be884286ecf9089466ae2, type: 2}
+  - {fileID: 11400000, guid: 312c385e97588d940b7381cf4e77acf5, type: 2}
+  - {fileID: 11400000, guid: 4087c3bb7e664a44eaa1566b0d5c4cee, type: 2}
 --- !u!1001 &997458334
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2795,7 +2831,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1697207539}
-  - component: {fileID: 1697207540}
   m_Layer: 0
   m_Name: StageObjects
   m_TagString: Untagged
@@ -2826,21 +2861,8 @@ Transform:
   - {fileID: 617632483}
   - {fileID: 1917434449}
   - {fileID: 24729408}
-  - {fileID: 986212590}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1697207540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1697207538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 632ae7eb1d4ce49d38a1e38ee7efe7c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1759641522
 GameObject:
   m_ObjectHideFlags: 0
@@ -3141,7 +3163,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1799417868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3692,7 +3714,7 @@ Transform:
   m_GameObject: {fileID: 463358737146990188}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.44, y: 2.05, z: 0}
+  m_LocalPosition: {x: -3.92, y: -0.09, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -3700,6 +3722,7 @@ Transform:
   - {fileID: 483932313}
   - {fileID: 1251996135}
   - {fileID: 1767200642}
+  - {fileID: 68647588}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3878832177851075690
@@ -3724,11 +3747,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5617536978925755798, guid: 6d346a974f088de479ffd60ab530e658, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.42
+      value: 3.18
       objectReference: {fileID: 0}
     - target: {fileID: 5617536978925755798, guid: 6d346a974f088de479ffd60ab530e658, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.17
+      value: -0.14
       objectReference: {fileID: 0}
     - target: {fileID: 5617536978925755798, guid: 6d346a974f088de479ffd60ab530e658, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3886,6 +3909,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 986212590}
   - {fileID: 1697207539}
   - {fileID: 2875555368878138899}
   - {fileID: 3878832177851075690}

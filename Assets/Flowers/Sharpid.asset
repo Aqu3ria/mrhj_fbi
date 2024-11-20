@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92cb93fa8bf253e45863023bae2393df, type: 3}
+  m_Name: Sharpid
+  m_EditorClassIdentifier: 
+  flowerName: Sharpid
+  flowerSprite: {fileID: 21300000, guid: d379672efb04e6542b41c566922e20e4, type: 3}
+  attackDamage: 7
+  attackRange: 2.5
+  maxDurability: 10

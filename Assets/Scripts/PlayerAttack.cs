@@ -5,8 +5,7 @@ public class PlayerAttack : MonoBehaviour
     public int attackDamage = 5;
     public float attackRange = .5f;
     [SerializeField] Transform enemy;
-
-    [SerializeField]
+    [SerializeField] Transform flowerHolder;
     private Transform grabPoint;
 
     [SerializeField]
@@ -14,49 +13,49 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     private float rayDistance;
 
-    private GameObject grabbedObject;
+    private FlowerWeapon grabbedFlower;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space)) // 스페이스바를 눌러 공격
-        {   
-            if (grabbedObject == null) {
-                Debug.Log("pickup");
-                GrabWeapon(); 
-            }
-            
+        {
             Debug.Log("Attack");
             AttackEnemy();
-            
+
         }
 
-        if (Input.GetKeyDown(KeyCode.Q) && grabbedObject != null) {
-            ReleaseWeapon();
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (grabbedFlower == null) GrabWeapon();
+            else ReleaseWeapon();
         }
 
     }
 
-    void GrabWeapon() {
+    void GrabWeapon()
+    {
         RaycastHit2D hitInfo = Physics2D.Raycast(rayPoint.position, transform.right * Mathf.Sign(transform.localScale.x), rayDistance);
 
-        if (hitInfo.collider != null && hitInfo.collider.gameObject.tag == "Flower") 
+        if (hitInfo.collider != null && hitInfo.collider.gameObject.tag == "Flower")
         {
             // grab object
-            grabbedObject = hitInfo.collider.gameObject;
-            grabbedObject.transform.position = grabPoint.position;
-            grabbedObject.transform.SetParent(transform);
-            
+            grabbedFlower = hitInfo.collider.gameObject.GetComponent<FlowerWeapon>();
+            grabbedFlower.transform.SetParent(flowerHolder);
+            grabbedFlower.transform.localPosition = Vector3.zero;
+            grabbedFlower.transform.localScale = new Vector3(1, 1, 1);
+            Destroy(grabbedFlower.GetComponent<CapsuleCollider2D>()); // that way flower is no longer affected by gravity
         }
 
         Debug.DrawRay(rayPoint.position, transform.right * rayDistance);
     }
 
-    void ReleaseWeapon() {
+    void ReleaseWeapon()
+    {
         // release object
-        grabbedObject.transform.SetParent(null);
+        grabbedFlower.transform.SetParent(null);
         // TODO: implement delete animation
-        Destroy(grabbedObject);
-        grabbedObject = null;
+        Destroy(grabbedFlower.gameObject);
+        grabbedFlower = null;
 
     }
 
@@ -64,7 +63,8 @@ public class PlayerAttack : MonoBehaviour
     {
         Enemy enemy1 = enemy.GetComponent<Enemy>();
 
-        if (Vector2.Distance(transform.position, enemy.position) <= attackRange) {
+        if (Vector2.Distance(transform.position, enemy.position) <= attackRange)
+        {
             Vector2 knockbackDirection = (enemy.position - transform.position).normalized;
             enemy1.TakeDamage(attackDamage, knockbackDirection);
         }

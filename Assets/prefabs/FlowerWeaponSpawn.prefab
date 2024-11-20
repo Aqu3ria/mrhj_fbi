@@ -93,11 +93,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2328080768060702403}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae7bb862bd7d3ff43adc64bcc564ae62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flowerWeaponSO: {fileID: 11400000, guid: 6b1ee531448be884286ecf9089466ae2, type: 2}
 --- !u!70 &-1620070863689428720
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

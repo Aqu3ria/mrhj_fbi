@@ -7,7 +7,7 @@ public class EnemyGenerator : MonoBehaviour
 {
     [SerializeField] private GameObject enemyPrefab;
     public int wave = 1;
-    [SerializeField]private BoxCollider2D area;
+    [SerializeField] private BoxCollider2D area;
     private List<GameObject> enemyList = new List<GameObject>();
 
     public int lastEnemyCount = 0;
@@ -49,7 +49,7 @@ public class EnemyGenerator : MonoBehaviour
                 yield return new WaitForSeconds(Random.Range(3, 9));
                 StartCoroutine(Spawn());
             }
-            
+
 
             wave++;
 
@@ -76,7 +76,8 @@ public class EnemyGenerator : MonoBehaviour
 
     private void UpdateWaveUI()
     {
-        waveText.text = "Wave: " + wave;
+        if (waveText != null)
+            waveText.text = "Wave: " + wave;
     }
 }
 

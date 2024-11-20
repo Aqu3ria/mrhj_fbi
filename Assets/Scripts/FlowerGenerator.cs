@@ -10,11 +10,12 @@ public class FlowerGenerator : MonoBehaviour
     [SerializeField] private GameObject flower;
     private BoxCollider2D area;
     private List<GameObject> BigFlowerList = new List<GameObject>();
+    [SerializeField] private List<FlowerWeaponSO> flowerWeaponList;
 
     void Start()
     {
-        StartCoroutine("Spawn", spawnInterval);
         BigFlowerList.Clear();
+        StartCoroutine("Spawn", spawnInterval);
     }
 
     IEnumerator Spawn(float delayTime)
@@ -30,15 +31,8 @@ public class FlowerGenerator : MonoBehaviour
 
             spawnPos.x += dx;
 
-            // GameObject [] SpawningPlatforms = GameObject.FindGameObjectsWithTag("FlowerSpawnable_Platform");
-            // GameObject SpawningPlatform = SpawningPlatforms[Random.Range(0, SpawningPlatforms.Length)];
-            // Debug.Log(SpawningPlatform);
-
-            // area = SpawningPlatform.GetComponent<BoxCollider2D>();
-            // Debug.Log(area);
-
-            // Vector3 spawnPos = GetRandomPosition();
             GameObject instance = Instantiate(flower, spawnPos, Quaternion.identity);
+            AssignFlowerWeaponType(instance.GetComponent<FlowerWeapon>());
             BigFlowerList.Add(instance);
         }
 
@@ -47,7 +41,12 @@ public class FlowerGenerator : MonoBehaviour
         StartCoroutine("Spawn", spawnInterval);
     }
 
-
+    private void AssignFlowerWeaponType(FlowerWeapon flowerWeapon)
+    {
+        int index = Random.Range(0, flowerWeaponList.Count - 1);
+        FlowerWeaponSO weaponInstance = Instantiate(flowerWeaponList[index]);
+        flowerWeapon.SetFlowerWeaponSO(weaponInstance);
+    }
 
     private Vector2 GetRandomPosition()
     {
