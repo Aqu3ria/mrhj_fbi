@@ -12,6 +12,10 @@ public class EnemyMove : MonoBehaviour
 
     [SerializeField] float rayDistance;
 
+
+    // for debugging 
+    [SerializeField] GameObject currentLadder;
+
     Transform player;
 
     float attackCooldown = 1;
@@ -45,9 +49,10 @@ public class EnemyMove : MonoBehaviour
             }
 
             if (targetLadder != null)
-            {
+            {   
                 FollowObject(targetLadder.position.x);
                 if(isClimbing) ClimbLadder();
+
                 // if (Mathf.Abs(targetLadder.position.x - transform.position.x) < 0.1f)   
                 // {
                 //     isClimbing = true;
@@ -88,6 +93,7 @@ public class EnemyMove : MonoBehaviour
         else if (distanceX < 0)
             transform.position += speed * Time.deltaTime * Vector3.right;
 
+        
         if (!isClimbing)
         {
             Vector3 currentScale = transform.localScale;
@@ -109,6 +115,7 @@ public class EnemyMove : MonoBehaviour
         //     {
         //         isClimbing = true;
         //     }
+            currentLadder = other.gameObject;
             isClimbing = true;
          }
             
@@ -116,10 +123,11 @@ public class EnemyMove : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        isClimbing = false;
-
+    
         if (other.gameObject.CompareTag("Ladder"))
-        {
+        {   
+            isClimbing = false;
+            currentLadder = null;
             rb.gravityScale = 1;
             gameObject.layer = 9;
         }
