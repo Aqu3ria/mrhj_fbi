@@ -6,7 +6,6 @@ public class PlayerAttack : MonoBehaviour
     public float attackRange = .5f;
     [SerializeField] Transform enemy;
     [SerializeField] Transform flowerHolder;
-    private Transform grabPoint;
 
     [SerializeField]
     private Transform rayPoint;
