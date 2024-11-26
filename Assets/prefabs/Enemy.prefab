@@ -51,6 +51,8 @@ MonoBehaviour:
   speed: 2
   attackRange: 1
   attackDamage: 10
+  rayDistance: 15
+  currentLadder: {fileID: 0}
 --- !u!114 &2183677009461261855
 MonoBehaviour:
   m_ObjectHideFlags: 0

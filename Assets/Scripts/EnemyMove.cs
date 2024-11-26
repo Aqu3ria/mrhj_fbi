@@ -10,7 +10,7 @@ public class EnemyMove : MonoBehaviour
     [SerializeField] float attackRange = 1f;
     [SerializeField] int attackDamage = 10;
 
-    [SerializeField] float rayDistance;
+    [SerializeField] float rayDistance = 15;
 
 
     // for debugging 
