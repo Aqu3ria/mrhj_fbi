@@ -13,10 +13,17 @@ public class PlayerPercent : MonoBehaviour
     private Vector2 knockbackDirection;
     private float knockbackEndTime;
 
+    private Renderer playerPercentEffect;
+    
+    private Color playerColor;
+
     private void Start()
     {
         currentPercent = 0;
         UpdatePercentUI();
+        playerPercentEffect = gameObject.GetComponent<Renderer>();
+        playerColor = playerPercentEffect.material.color;
+        
     }
 
     public void TakeDamage(int damage, Vector2 direction)
@@ -24,6 +31,8 @@ public class PlayerPercent : MonoBehaviour
         currentPercent += damage;
         currentPercent = Mathf.Max(currentPercent, 0);
         UpdatePercentUI();
+
+        playerPercentEffect.material.color = new Color(playerColor.r + currentPercent / 10, playerColor.g, playerColor.b);
 
         knockbackDirection = direction.normalized;
         isKnockback = true;
