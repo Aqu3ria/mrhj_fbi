@@ -11,6 +11,8 @@ TagManager:
   - EnemySpawnable_Ground
   - LadderTopCollider
   - stopaddingtags
+  - Flower
+  - LadderBottomCollider
   layers:
   - Default
   - TransparentFX

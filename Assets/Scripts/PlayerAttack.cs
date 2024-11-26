@@ -7,7 +7,6 @@ public class PlayerAttack : MonoBehaviour
     public float attackCooldown = 0.3f;
     [SerializeField] Transform enemy;
     [SerializeField] Transform flowerHolder;
-    // private Transform grabPoint;
 
     [SerializeField]
     private Transform rayPoint;

@@ -10,6 +10,12 @@ public class EnemyMove : MonoBehaviour
     [SerializeField] float attackRange = 1f;
     [SerializeField] int attackDamage = 10;
 
+    [SerializeField] float rayDistance;
+
+
+    // for debugging 
+    [SerializeField] GameObject currentLadder;
+
     Transform player;
 
     float attackCooldown = 1;
@@ -38,14 +44,15 @@ public class EnemyMove : MonoBehaviour
         {
             if(!isClimbing)
             {
-                lookingToClimb = true;
+                // lookingToClimb = true;
                 targetLadder = FindNearestLadder();
             }
 
             if (targetLadder != null)
-            {
+            {   
                 FollowObject(targetLadder.position.x);
                 if(isClimbing) ClimbLadder();
+
                 // if (Mathf.Abs(targetLadder.position.x - transform.position.x) < 0.1f)   
                 // {
                 //     isClimbing = true;
@@ -86,6 +93,7 @@ public class EnemyMove : MonoBehaviour
         else if (distanceX < 0)
             transform.position += speed * Time.deltaTime * Vector3.right;
 
+        
         if (!isClimbing)
         {
             Vector3 currentScale = transform.localScale;
@@ -103,19 +111,23 @@ public class EnemyMove : MonoBehaviour
         {
             gameObject.layer = 8;
             rb.gravityScale = 0;
-            if(lookingToClimb)
-            {
-                isClimbing = true;
-            }
-        }
+        //     if(lookingToClimb)
+        //     {
+        //         isClimbing = true;
+        //     }
+            currentLadder = other.gameObject;
+            isClimbing = true;
+         }
+            
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        isClimbing = false;
-
+    
         if (other.gameObject.CompareTag("Ladder"))
-        {
+        {   
+            isClimbing = false;
+            currentLadder = null;
             rb.gravityScale = 1;
             gameObject.layer = 9;
         }
@@ -132,8 +144,27 @@ public class EnemyMove : MonoBehaviour
     }
 
     Transform FindNearestLadder()
-    {
-        GameObject[] ladders = GameObject.FindGameObjectsWithTag("Ladder");
+    {   
+        RaycastHit2D[] hitInfo = Physics2D.RaycastAll(new Vector3(transform.position.x - rayDistance/2, transform.position.y-0.5f, transform.position.z), transform.right, rayDistance);
+        List<GameObject> ladders = new List<GameObject>(); 
+        Debug.DrawRay(new Vector3(transform.position.x - rayDistance/2, transform.position.y-0.5f, transform.position.z), transform.right * rayDistance);
+
+        foreach (RaycastHit2D hit in hitInfo)
+        {   
+            Debug.Log(hit.collider.gameObject.tag);
+            if (hit.collider != null && (hit.collider.gameObject.tag == "Ladder" || hit.collider.gameObject.tag == "LadderTopCollider")) 
+            {   
+                GameObject ladder;
+                if (hit.collider.gameObject.tag == "LadderTopCollider") ladder = hit.collider.gameObject.transform.parent.gameObject;
+                else ladder = hit.collider.gameObject;
+
+                // get rid of case where the ladder is above the player
+                if (ladder.transform.position.y > player.position.y) continue;
+                
+                ladders.Add(ladder);
+            }
+        }
+
         Transform nearestLadder = null;
         float minDistance = Mathf.Infinity;
 
