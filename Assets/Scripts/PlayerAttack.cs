@@ -5,7 +5,6 @@ public class PlayerAttack : MonoBehaviour
     public int baseAttackDamage = 5;
     public float baseAttackRange = 1f;
     public float attackCooldown = 0.3f;
-    [SerializeField] Transform enemy;
     [SerializeField] Transform flowerHolder;
 
     [SerializeField]
@@ -16,7 +15,7 @@ public class PlayerAttack : MonoBehaviour
     private FlowerWeapon grabbedFlower;
     private FlowerWeaponSO grabbedFlowerSO;
     private int currentDurability;
-    private float lastAttackTime;
+    [SerializeField] private float lastAttackTime;
 
     void Update()
     {
@@ -73,27 +72,38 @@ public class PlayerAttack : MonoBehaviour
     void AttackEnemy()
     {
         lastAttackTime = Time.time;
-        Enemy enemy1 = enemy.GetComponent<Enemy>();
+        RaycastHit2D[] hitInfo = Physics2D.RaycastAll(rayPoint.position, transform.right * Mathf.Sign(transform.localScale.x), baseAttackRange);
+
+        Enemy enemy1 = null;
+        foreach (RaycastHit2D hit in hitInfo)
+        {
+            if (hit.collider != null && (hit.collider.gameObject.tag == "Enemy")) 
+            {
+                enemy1 = hit.collider.gameObject.GetComponent<Enemy>();
+                break;
+            }
+        }
         int attackDamage = grabbedFlowerSO != null ? grabbedFlowerSO.attackDamage : baseAttackDamage;
         float attackRange = grabbedFlowerSO != null ? grabbedFlowerSO.attackRange : baseAttackRange;
 
-        if (Vector2.Distance(transform.position, enemy.position) <= attackRange)
-        {
-            Vector2 knockbackDirection = (enemy.position - transform.position).normalized;
-            enemy1.TakeDamage(attackDamage, knockbackDirection);
-            Debug.Log($"Attacked with {grabbedFlowerSO?.flowerName ?? "Base Attack"}: Damage={attackDamage}, Range={attackRange}");
-        }
-        
-        if (grabbedFlowerSO != null) 
-        {
-            currentDurability--;
-            Debug.Log($"Remaining durability: {currentDurability}");
-
-            if (currentDurability <= 0)
+        if (enemy1 != null) {
+            if (Vector2.Distance(transform.position, enemy1.transform.position) <= attackRange)
             {
-                ReleaseWeapon();
+                Vector2 knockbackDirection = (enemy1.transform.position - transform.position).normalized;
+                enemy1.TakeDamage(attackDamage, knockbackDirection);
+                Debug.Log($"Attacked with {grabbedFlowerSO?.flowerName ?? "Base Attack"}: Damage={attackDamage}, Range={attackRange}");
+            }
+            
+            if (grabbedFlowerSO != null) 
+            {
+                currentDurability--;
+                Debug.Log($"Remaining durability: {currentDurability}");
+
+                if (currentDurability <= 0)
+                {
+                    ReleaseWeapon();
+                }
             }
         }
     }
-
 }
