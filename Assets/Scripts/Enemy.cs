@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public static event EventHandler onEnemyDeath;
     public int health = 10;
     private bool isKnockback = false;
     private Vector2 knockbackDirection;
@@ -9,9 +11,15 @@ public class Enemy : MonoBehaviour
     private float knockbackDuration = 0.1f;
     private float knockbackEndTime;
 
+    public bool alive;
+
+    private void Start()
+    {
+        alive = true;
+    }
+
     public void TakeDamage(int damage, Vector2 direction)
     {
-        Debug.Log("TakeDamage called with damage: " + damage + ", knockbackDirection: " + direction);
         health += damage;
         
         knockbackDirection = direction.normalized;
@@ -32,5 +40,16 @@ public class Enemy : MonoBehaviour
                 isKnockback = false;
             }
         }
+
+        if(transform.position.y < -3.23)
+        {
+           if(alive) InvokeDeath(); 
+        }
+    }
+
+    private void InvokeDeath()
+    {
+        alive = false;
+        onEnemyDeath?.Invoke(this, EventArgs.Empty);
     }
 }

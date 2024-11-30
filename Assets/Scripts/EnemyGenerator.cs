@@ -5,7 +5,9 @@ using TMPro;
 
 public class EnemyGenerator : MonoBehaviour
 {
+    // public static EnemyGenerator Instance { get; private set;}
     [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private List<Transform> enemyPositions;
     public int wave = 1;
     [SerializeField] private BoxCollider2D area;
     private List<GameObject> enemyList = new List<GameObject>();
@@ -14,13 +16,12 @@ public class EnemyGenerator : MonoBehaviour
     public int waveDuration = 0;
     public int enemyCount = 0;
 
-    public TextMeshProUGUI waveText;
-
     void Awake()
     {
         StartCoroutine(Wave());
         enemyList.Clear();
-        UpdateWaveUI();
+
+        // Instance = this;
     }
 
     IEnumerator Wave()
@@ -28,8 +29,6 @@ public class EnemyGenerator : MonoBehaviour
 
         while (true)
         {
-
-            UpdateWaveUI();
 
             if (wave == 1)
             {
@@ -46,7 +45,7 @@ public class EnemyGenerator : MonoBehaviour
 
             for (int i = 0; i < enemyCount; i++)
             {
-                yield return new WaitForSeconds(Random.Range(3, 9));
+                yield return new WaitForSeconds(Random.Range(1, 4));
                 StartCoroutine(Spawn());
             }
 
@@ -59,7 +58,7 @@ public class EnemyGenerator : MonoBehaviour
 
     IEnumerator Spawn()
     {
-        Vector3 spawnPos = transform.position;
+        Vector3 spawnPos = enemyPositions[Random.Range(0, enemyPositions.Count)].position;
         GameObject instance = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
         enemyList.Add(instance);
         yield return null;
@@ -72,12 +71,6 @@ public class EnemyGenerator : MonoBehaviour
         float posX = basePosition.x + Random.Range(-size.x / 2f, size.x / 2f);
         float posY = basePosition.y + 3f;
         return new Vector2(posX, posY);
-    }
-
-    private void UpdateWaveUI()
-    {
-        if (waveText != null)
-            waveText.text = "Wave: " + wave;
     }
 }
 

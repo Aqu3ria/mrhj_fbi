@@ -10,4 +10,5 @@ public class FlowerWeaponSO : ScriptableObject
     public int attackDamage;
     public float attackRange;
     public int maxDurability;
+    public float cooldown;
 }

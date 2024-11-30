@@ -49,6 +49,7 @@ public class PlayerAttack : MonoBehaviour
             grabbedFlower = hitInfo.collider.gameObject.GetComponent<FlowerWeapon>();
             grabbedFlowerSO = grabbedFlower.GetFlowerWeaponSO();
             currentDurability = grabbedFlowerSO.maxDurability;
+            attackCooldown = grabbedFlowerSO.cooldown;
             grabbedFlower.transform.SetParent(flowerHolder);
             grabbedFlower.transform.localPosition = Vector3.zero;
             grabbedFlower.transform.localScale = new Vector3(1, 1, 1);
@@ -64,6 +65,7 @@ public class PlayerAttack : MonoBehaviour
         grabbedFlower.transform.SetParent(null);
         // TODO: implement delete animation
         Destroy(grabbedFlower.gameObject);
+        attackCooldown = 0.3f;
         grabbedFlower = null;
         grabbedFlowerSO = null;
 
