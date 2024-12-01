@@ -3466,6 +3466,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1426527563}
+  - component: {fileID: 1426527564}
   m_Layer: 5
   m_Name: Panel_Durability
   m_TagString: Untagged
@@ -3496,6 +3497,21 @@ RectTransform:
   m_AnchoredPosition: {x: 333, y: -165}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1426527564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426527562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 867d47a47dee1f6468f57fb1c3789aa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flowerHolder: {fileID: 746936033}
+  percentText: {fileID: 1167560072}
+  fillImage: {fileID: 187964832}
 --- !u!1 &1449627057
 GameObject:
   m_ObjectHideFlags: 0
@@ -4254,7 +4270,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1799417868
 MonoBehaviour:
   m_ObjectHideFlags: 0

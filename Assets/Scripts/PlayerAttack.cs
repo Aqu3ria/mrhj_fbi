@@ -1,7 +1,11 @@
+using System;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    public static PlayerAttack Instance { get; private set;}
+
+    public event EventHandler OnFlowerChange;
     public int baseAttackDamage = 5;
     public float baseAttackRange = 1f;
     public float attackCooldown = 0.3f;
@@ -16,6 +20,11 @@ public class PlayerAttack : MonoBehaviour
     private FlowerWeaponSO grabbedFlowerSO;
     private int currentDurability;
     [SerializeField] private float lastAttackTime;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     void Update()
     {
@@ -54,6 +63,8 @@ public class PlayerAttack : MonoBehaviour
             grabbedFlower.transform.localPosition = Vector3.zero;
             grabbedFlower.transform.localScale = new Vector3(1, 1, 1);
             Destroy(grabbedFlower.GetComponent<CapsuleCollider2D>()); // that way flower is no longer affected by gravity
+
+            OnFlowerChange?.Invoke(this, EventArgs.Empty);
         }
 
         Debug.DrawRay(rayPoint.position, transform.right * rayDistance);
@@ -69,6 +80,7 @@ public class PlayerAttack : MonoBehaviour
         grabbedFlower = null;
         grabbedFlowerSO = null;
 
+        OnFlowerChange?.Invoke(this, EventArgs.Empty);
     }
 
     void AttackEnemy()
@@ -93,7 +105,7 @@ public class PlayerAttack : MonoBehaviour
             {
                 Vector2 knockbackDirection = (enemy1.transform.position - transform.position).normalized;
                 enemy1.TakeDamage(attackDamage, knockbackDirection);
-                Debug.Log($"Attacked with {grabbedFlowerSO?.flowerName ?? "Base Attack"}: Damage={attackDamage}, Range={attackRange}");
+                //Debug.Log($"Attacked with {grabbedFlowerSO?.flowerName ?? "Base Attack"}: Damage={attackDamage}, Range={attackRange}");
             }
             
             if (grabbedFlowerSO != null) 
@@ -106,6 +118,25 @@ public class PlayerAttack : MonoBehaviour
                     ReleaseWeapon();
                 }
             }
+        }
+    }
+
+    public FlowerWeaponSO GetCurrentFlowerWeaponSO()
+    {
+        return grabbedFlowerSO;
+    }
+
+    public float GetDurabilityNormalized()
+    {
+        if(grabbedFlowerSO == null)
+        {
+            return 0f;
+        }
+        else
+        {
+            float durab = ((float) currentDurability) / ((float) grabbedFlowerSO.maxDurability);
+            return durab;
+            
         }
     }
 }
