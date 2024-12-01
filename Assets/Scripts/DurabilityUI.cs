@@ -8,7 +8,7 @@ public class DurabilityUI : MonoBehaviour
 {
     [SerializeField] private GameObject flowerHolder;
     [SerializeField] private TextMeshProUGUI percentText;
-    [SerializeField] private Image fillImage; 
+    [SerializeField] private Image fillImage;
 
     private FlowerWeaponSO currentFlowerWeapon;
 
@@ -27,7 +27,7 @@ public class DurabilityUI : MonoBehaviour
     {
         currentFlowerWeapon = PlayerAttack.Instance.GetCurrentFlowerWeaponSO();
 
-        if(currentFlowerWeapon == null)
+        if (currentFlowerWeapon == null)
         {
             flowerHolder.SetActive(false);
             percentText.text = "Grab a Flower";
@@ -42,11 +42,11 @@ public class DurabilityUI : MonoBehaviour
 
     private void Update()
     {
-        if(currentFlowerWeapon != null)
+        if (currentFlowerWeapon != null)
         {
             float currentDurability = PlayerAttack.Instance.GetDurabilityNormalized();
-            fillImage.fillAmount = currentDurability; 
-            percentText.text = Mathf.Abs(currentDurability  * 100f) + "%";
+            fillImage.fillAmount = currentDurability;
+            percentText.text = Mathf.Round(currentDurability * 100f) + "%";
         }
         // else
         // {
