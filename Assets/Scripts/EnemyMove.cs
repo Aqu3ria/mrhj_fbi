@@ -26,6 +26,12 @@ public class EnemyMove : MonoBehaviour
     bool isClimbing = false;
     bool lookingToClimb = false;
 
+    bool isMoving = false;
+    public float positionTolerance = 0.05f;  // The tolerance range for Y position variation
+    public float stuckTime = 4f;  // Time in seconds to check for "stuck" condition
+    private float lastYPosition;
+    private bool isStuck = false;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -61,9 +67,9 @@ public class EnemyMove : MonoBehaviour
             }
         }
         else
-        {
-            lookingToClimb = false;
-            FollowObject(player.position.x);
+        {   
+            if (!isMoving)
+                FollowObject(player.position.x);
         }
         if (Vector2.Distance(transform.position, player.position) <= attackRange)
         {
@@ -77,12 +83,68 @@ public class EnemyMove : MonoBehaviour
     }
 
     void ClimbLadder()
-    {
+    {   
+        StartCheckingForStuck();
+
         float distanceY = transform.position.y - player.position.y;
-        if (distanceY > 0)
+        if (distanceY > 0 && !isMoving)
             transform.position += speed * Time.deltaTime * Vector3.down * 2f;
-        else
+        else if (distanceY < 0 && !isMoving)
             transform.position += speed * Time.deltaTime * Vector3.up * 2f;
+        if (isStuck) 
+            StartCoroutine(EscapeLadder(0.3f));
+    }
+
+     // Start checking when you call this method
+    public void StartCheckingForStuck()
+    {
+        StartCoroutine(CheckIfStuck());
+    }
+
+    private IEnumerator CheckIfStuck()
+    {
+        lastYPosition = transform.position.y;  // Initialize the last Y position
+        float timeElapsed = 0f;  // Time counter to track how long the Y position has been constant
+
+        while (timeElapsed < stuckTime)
+        {
+            // Check if the Y position is within the tolerance range
+            if (Mathf.Abs(transform.position.y - lastYPosition) <= positionTolerance)
+            {
+                timeElapsed += Time.deltaTime;  // Increase the time since Y position has been constant
+            }
+            else
+            {
+                timeElapsed = 0f;  // Reset if the Y position changes significantly
+            }
+
+            lastYPosition = transform.position.y;  // Update the last known Y position
+            yield return null;  // Wait until the next frame
+        }
+
+        // If timeElapsed reaches stuckTime, set isStuck to true
+        isStuck = true;
+        Debug.Log("Enemy is stuck on the ladder.");
+    }
+
+    private IEnumerator EscapeLadder(float duration)
+    {   
+        isStuck = false;
+
+        Debug.Log("Escaping Ladder");
+        isMoving = true;  // Set flag to prevent other movement
+        float timePassed = 0f;
+
+        float direction = Mathf.Sign(transform.position.x - player.position.x);
+
+        while (timePassed < duration)
+        {
+            transform.position += speed / 40 * Time.deltaTime * Vector3.left * direction;
+            timePassed += Time.deltaTime;
+            yield return null;
+        }
+
+        isMoving = false;  // Reset flag after movement is complete
     }
 
     void FollowObject(float x)
