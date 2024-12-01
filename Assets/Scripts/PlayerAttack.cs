@@ -85,9 +85,16 @@ public class PlayerAttack : MonoBehaviour
 
     void AttackEnemy()
     {
+        if (grabbedFlowerSO != null && grabbedFlowerSO.flowerName == "Pear")
+        {
+            RestorePlayerHP(100);
+            currentDurability--;
+            ReleaseWeapon();
+            return;
+        }
         lastAttackTime = Time.time;
         RaycastHit2D[] hitInfo = Physics2D.RaycastAll(rayPoint.position, transform.right * Mathf.Sign(transform.localScale.x), baseAttackRange);
-
+        
         Enemy enemy1 = null;
         foreach (RaycastHit2D hit in hitInfo)
         {
@@ -120,7 +127,12 @@ public class PlayerAttack : MonoBehaviour
             }
         }
     }
-
+    void RestorePlayerHP(int amount)
+    {
+        Transform player = PlayerMove.Instance.transform;
+        PlayerPercent playerPercent = player.GetComponent<PlayerPercent>();
+        playerPercent.TakeDamage(-amount, Vector2.zero);
+    }
     public FlowerWeaponSO GetCurrentFlowerWeaponSO()
     {
         return grabbedFlowerSO;
