@@ -50,7 +50,7 @@ public class FlowerGenerator : MonoBehaviour
 
     private void AssignFlowerWeaponType(FlowerWeapon flowerWeapon)
     {
-        int index = Random.Range(0, flowerWeaponList.Count - 1);
+        int index = Random.Range(0, flowerWeaponList.Count);
         FlowerWeaponSO weaponInstance = Instantiate(flowerWeaponList[index]);
         flowerWeapon.SetFlowerWeaponSO(weaponInstance);
     }
