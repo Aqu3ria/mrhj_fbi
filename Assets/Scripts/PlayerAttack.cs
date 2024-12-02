@@ -6,6 +6,11 @@ public class PlayerAttack : MonoBehaviour
     public static PlayerAttack Instance { get; private set;}
 
     public event EventHandler OnFlowerChange;
+    public event EventHandler<OnFlowerGrabEventArgs> OnFlowerGrab;
+    public class OnFlowerGrabEventArgs : EventArgs
+    {
+        public GameObject flowerGrabbed;
+    }
     public int baseAttackDamage = 5;
     public float baseAttackRange = 1f;
     public float attackCooldown = 0.3f;
@@ -65,6 +70,7 @@ public class PlayerAttack : MonoBehaviour
             Destroy(grabbedFlower.GetComponent<CapsuleCollider2D>()); // that way flower is no longer affected by gravity
 
             OnFlowerChange?.Invoke(this, EventArgs.Empty);
+            OnFlowerGrab?.Invoke(this, new OnFlowerGrabEventArgs { flowerGrabbed = grabbedFlower.gameObject });
         }
 
         Debug.DrawRay(rayPoint.position, transform.right * rayDistance);

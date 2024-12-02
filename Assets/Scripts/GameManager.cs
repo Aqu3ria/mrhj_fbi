@@ -18,6 +18,13 @@ public class GameManager : MonoBehaviour
         Enemy.onEnemyDeath += OnEnemyDeath;
     }
 
+    public void Restart()
+    {
+        score = 0;
+        EnemyGenerator.Instance.Restart();
+        PlayerMove.Instance.transform.position = new Vector3(-3.92f, -0.09f, 0f);
+    }
+
     private void OnEnemyDeath(object sender, System.EventArgs e)
     {
         score += 1;

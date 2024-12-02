@@ -16,6 +16,8 @@ public class FlowerGenerator : MonoBehaviour
     {
         BigFlowerList.Clear();
         StartCoroutine("Spawn", spawnInterval);
+
+        PlayerAttack.Instance.OnFlowerGrab += UpdateFlowers;
     }
 
     IEnumerator Spawn(float delayTime)
@@ -39,6 +41,11 @@ public class FlowerGenerator : MonoBehaviour
         yield return new WaitForSeconds(delayTime);
 
         StartCoroutine("Spawn", spawnInterval);
+    }
+
+    private void UpdateFlowers(object sender, PlayerAttack.OnFlowerGrabEventArgs e)
+    {
+        BigFlowerList.Remove(e.flowerGrabbed);
     }
 
     private void AssignFlowerWeaponType(FlowerWeapon flowerWeapon)

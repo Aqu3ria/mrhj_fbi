@@ -5,7 +5,7 @@ using TMPro;
 
 public class EnemyGenerator : MonoBehaviour
 {
-    // public static EnemyGenerator Instance { get; private set;}
+    public static EnemyGenerator Instance { get; private set;}
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private List<Transform> enemyPositions;
     public int wave = 1;
@@ -21,7 +21,22 @@ public class EnemyGenerator : MonoBehaviour
         StartCoroutine(Wave());
         enemyList.Clear();
 
-        // Instance = this;
+        Instance = this;
+        wave = 1;
+    }
+
+    public void Restart()
+    {
+        List<GameObject> enemyCopyList = new List<GameObject>();
+        enemyCopyList.AddRange(enemyList);
+
+        foreach(GameObject enemy in enemyCopyList)
+        {
+            Destroy(enemy);
+        }
+
+        enemyList.Clear();
+        wave = 1;
     }
 
     IEnumerator Wave()
@@ -71,6 +86,11 @@ public class EnemyGenerator : MonoBehaviour
         float posX = basePosition.x + Random.Range(-size.x / 2f, size.x / 2f);
         float posY = basePosition.y + 3f;
         return new Vector2(posX, posY);
+    }
+
+    public int GetWaveNumber()
+    {
+        return wave;
     }
 }
 
